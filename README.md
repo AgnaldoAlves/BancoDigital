@@ -23,7 +23,9 @@ A API oferece as seguintes funcionalidades:
 
 ### Movimentação de conta para quitar dívida
 
-`POST /api/Banco/movimentacao`
+`POST /api/Banco/quitar-divid/{contaId}a`
+
+
 
 Realiza uma movimentação de conta para quitar uma dívida.
 
@@ -51,10 +53,10 @@ Parâmetros:
 
 ## Exemplos de Uso
 
-### Movimentação de conta para quitar dívida
+### Movimentação de sacar
 
 ```bash
-curl -X POST "http://localhost:5000/api/Banco/movimentacao" -d "contaId=1&valor=100"
+curl -X POST "http://localhost:5000/api/Banco/sacar" -d "contaId=1&valor=100"
 
 
 ### Consulta de saldo da conta
