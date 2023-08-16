@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics.X86;
 using BancoDigital.Models;
@@ -23,10 +24,10 @@ public class BancoController : ControllerBase
     {
         new Divida { Id = 1, ContaId = 1, Valor = 300 },
         new Divida { Id = 2, ContaId = 2, Valor = 500 },
-        new Divida { Id = 3, ContaId = 3, Valor = 100 },
+     
     };
 
-    [HttpPost("movimentacao")]
+    [HttpPost("sacar")]
     public IActionResult RealizarMovimentacao(int contaId, decimal valor)
     {
         var conta = contas.FirstOrDefault(c => c.Id == contaId);
@@ -43,24 +44,28 @@ public class BancoController : ControllerBase
     }
 
     [HttpPost("quitar-divida")]
-    public IActionResult QuitarDivida(int contaId, int dividaId)
+    public IActionResult QuitarDivida(int contaId)
     {
         var conta = contas.FirstOrDefault(c => c.Id == contaId);
         if (conta == null)
             return NotFound("Conta não encontrada");
 
-        var divida = dividas.FirstOrDefault(d => d.Id == dividaId);
+        var divida = dividas.FirstOrDefault(d => d.Id == contaId);
         if (divida == null)
-            return NotFound("Dívida não encontrada");
+            return NotFound("Dívida não encontrada para esta conta");
 
         if (conta.Saldo < divida.Valor)
             return BadRequest("Saldo insuficiente para quitar a dívida");
+
+   
 
         conta.Saldo -= divida.Valor;
         transacoes.Add(new Transacao { ContaId = contaId, Valor = -divida.Valor, Data = DateTime.Now });
         dividas.Remove(divida);
 
-        return Ok("Dívida quitada com sucesso");
+        var  msgOk  = string.Format("Dívida no valor de {0} , quitada com sucesso! Restando um saldo de : {1}", divida.Valor, conta.Saldo);
+
+        return Ok(msgOk);
     }
 
     [HttpGet("saldo/{contaId}")]
