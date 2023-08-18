@@ -2,14 +2,13 @@
 # API Simulador de Banco Digital
 
 Este projeto é uma API em C# que simula algumas funcionalidades de um banco digital, como movimentação de contas e quitação de dívidas.
-Nessa primeira versao, nao tem conexao com banco de dados.
 
 ## Funcionalidades
 
 A API oferece as seguintes funcionalidades:
 
-- Movimentação de conta corrente para quitar dívida
-- Consulta de saldo de uma conta
+- Movimentação de conta corrente para quitar dívida (Sacar, depositar)
+- Consulta de saldo de uma conta 
 - Consulta de transações de uma conta
 
 ## Configuração
@@ -19,30 +18,61 @@ A API oferece as seguintes funcionalidades:
 3. Configure a porta da aplicação no arquivo `launchSettings.json` ou utilize a porta padrão 5000.
 4. Execute o projeto pressionando F5.
 
+## Teconologias
+C#
+MySQL
+
+## Pacotes e bibliotecas utilizadas:
+Microsoft.EntityFrameworkCore
+Microsoft.EntityFrameworkCore.Design
+Microsoft.EntityFrameworkCore.Tools
+Pomelo.EntityFrameworkCore.MySql
+
 ## Endpoints
+Para acessar os os endpoints usei o swagger
 
-### Movimentação de conta para quitar dívida
+https://localhost:7014/swagger/index.html
 
-`POST /api/Banco/quitar-divid/{contaId}a`
+"DADO QUE eu consuma a API QUANDO eu chamar o post sacar informando o número da conta e um valor válido ENTÃO o saldo da minha conta no banco de dados diminuirá de acordo e a API retornará o saldo atualizado."
 
+"DADO QUE eu consuma a API QUANDO eu chamar a post sacar informando o número da conta e um valor maior do que o meu saldo ENTÃO a API me retornará um erro uma mensagem informando que eu não tenho saldo suficiente."
 
+Primeiro, adicione uma ou mais contas no banco e dividas para uma ou mais contas
 
-Realiza uma movimentação de conta para quitar uma dívida.
+### (1) criar conta
+POST /api/Contas/Criar Conta
+
+### (2) criar divida
+POST /api/Contas/Criar Divida
+
+### (3) sacar conta
+POST  /api/Contas/sacar
 
 Parâmetros:
 - `contaId` (int): ID da conta corrente.
-- `valor` (decimal): Valor da movimentação.
+- 'valor' (double): valor do saque
+  
+### (4) Consulta de saldo da conta
 
-### Consulta de saldo da conta
-
-`GET /api/Banco/saldo/{contaId}`
+GET /api/Banco/saldo/{contaId}
 
 Retorna o saldo da conta corrente.
 
 Parâmetros:
 - `contaId` (int): ID da conta corrente.
+  
+### (5) quitar dívida
 
-### Consulta de transações da conta
+`POST /api/Banco/quitar-divid/{contaId}`
+
+Realiza uma movimentação de conta para quitar uma dívida.
+
+Parâmetros:
+- `contaId` (int): ID da conta corrente.
+
+
+
+### (6) Consulta de transações da conta
 
 `GET /api/Banco/transacoes/{contaId}`
 
@@ -51,20 +81,6 @@ Retorna as transações realizadas na conta corrente.
 Parâmetros:
 - `contaId` (int): ID da conta corrente.
 
-## Exemplos de Uso
 
-### Movimentação de sacar
-
-```bash
-curl -X POST "http://localhost:5000/api/Banco/sacar" -d "contaId=1&valor=100"
-
-
-### Consulta de saldo da conta
-
-curl "http://localhost:5000/api/Banco/saldo/1"
-
-
-### Consulta de transações da conta    
-curl "http://localhost:5000/api/Banco/transacoes/1"
 
 
