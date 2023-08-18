@@ -54,7 +54,7 @@ Parâmetros:
   
 ### (4) Consulta de saldo da conta
 
-GET /api/Banco/saldo/{contaId}
+GET /api/Contas/{id}
 
 Retorna o saldo da conta corrente.
 
@@ -70,17 +70,27 @@ Realiza uma movimentação de conta para quitar uma dívida.
 Parâmetros:
 - `contaId` (int): ID da conta corrente.
 
-
-
-### (6) Consulta de transações da conta
-
-`GET /api/Banco/transacoes/{contaId}`
-
-Retorna as transações realizadas na conta corrente.
+### (6) depositar conta
+POST /api/Contas/depositar
 
 Parâmetros:
 - `contaId` (int): ID da conta corrente.
+- 'valor' (double): valor do deposito
 
+
+### (7) Consulta dados de todas as contas
+
+GET /api/Contas/{id}
+
+Retorna o as contas criadas
+
+
+
+### (8) Consulta dados de todas as transacoes
+
+GET /api/Contas/Consutas transacoes
+
+Retorna  as transacoes criadas
 
 
 
